@@ -83,7 +83,7 @@ if __name__ == "__main__":
                 }
                 tmp["points"] = b
                 res.append(tmp)
-            name = str(random.randrange(100000, 999999))
+        name = str(random.randrange(100000, 999999))
         cv2.imwrite('SD/images/' + name + '.png', palette)
         sgt["imagePath"] = name + '.png'
         for r in res:
