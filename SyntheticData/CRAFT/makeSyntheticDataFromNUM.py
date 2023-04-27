@@ -70,7 +70,7 @@ def makeNum(palette, pw, ph):
 
 def attach_rand_img(palette, gt, p):
     tar = random.randrange(0, len(gt))
-    imgpath = 'RAW/ORG/' + gt[tar]['data']['image'][-10:] #gt[tar]
+    imgpath = 'RAW/ORG/' + gt[tar]['data']['image'][-10:]
     img = cv2.imread(imgpath)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img, r = resi(img)
@@ -88,7 +88,6 @@ if __name__ == "__main__":
     os.mkdir('SD')
     os.mkdir('SD/images')
     os.mkdir('SD/json')
-    # gt = glob('RAW/ORG/*.png')
     with open('asdf.json') as f:
         gt = json.load(f)
     pw, ph = 3000, 3000
