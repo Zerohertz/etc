@@ -33,6 +33,13 @@ def resi(img):
     r = np.array((h, w))
     return img, r
 
+def coords2bbox(coord):
+    xm = min(coord[0][0], coord[1][0], coord[2][0], coord[3][0])
+    xM = max(coord[0][0], coord[1][0], coord[2][0], coord[3][0])
+    ym = min(coord[0][1], coord[1][1], coord[2][1], coord[3][1])
+    yM = max(coord[0][1], coord[1][1], coord[2][1], coord[3][1])
+    return xm, xM, ym, yM
+
 def makeNum(palette, pw, ph):
     angle = -90
     M = cv2.getRotationMatrix2D((pw // 2, ph // 2), angle, 1.0)
@@ -63,11 +70,16 @@ def makeNum(palette, pw, ph):
 
 def attach_rand_img(palette, gt, p):
     tar = random.randrange(0, len(gt))
-    imgpath = gt[tar]
+    imgpath = 'RAW/ORG/' + gt[tar]['data']['image'][-10:] #gt[tar]
     img = cv2.imread(imgpath)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img, _ = resi(img)
-    palette, _ = pos(palette, img, p)
+    img, r = resi(img)
+    palette, bias = pos(palette, img, p)
+    for g in gt[tar]['annotations'][0]['result']:
+        coords = (r * np.array(g['value']['points']) / 100).round().astype('int32')
+        coords += bias
+        a,b,c,d = coords2bbox(coords)
+        palette[c:d,a:b,:] = 255
     return palette
 
 
@@ -76,7 +88,9 @@ if __name__ == "__main__":
     os.mkdir('SD')
     os.mkdir('SD/images')
     os.mkdir('SD/json')
-    gt = glob('RAW/ORG/*.png')
+    # gt = glob('RAW/ORG/*.png')
+    with open('asdf.json') as f:
+        gt = json.load(f)
     pw, ph = 3000, 3000
     pp = []
     sq = 3
@@ -98,7 +112,7 @@ if __name__ == "__main__":
             palette = attach_rand_img(palette, gt, p)
         palette, bb, tt = makeNum(palette, pw, ph)
         for b, t in zip(bb, tt):
-            viz(palette, b)
+            # viz(palette, b)
             tmp = {
                 "label": "###",
                 "points": [],
