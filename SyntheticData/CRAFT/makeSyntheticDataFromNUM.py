@@ -52,11 +52,14 @@ def makeNum(palette, pw, ph):
     bbox = []
     text = []
     bias = 5
-    for _ in range(20):
-        t = str(random.randrange(1, 900)) + ' , ' + str(random.randrange(100, 900))
+    for i in range(20):
+        if i % 3 == 0:
+            t = chr(random.randrange(65, 91))
+        else:
+            t = str(random.randrange(1, 900)) + ' , ' + str(random.randrange(100, 900))
         text.append(t.replace(' ', ''))
         ((tw, th), _) = cv2.getTextSize(t, font, font_scale, thickness)
-        tarw, tarh = random.randrange(pw - tw), random.randrange(ph - th)
+        tarw, tarh = random.randrange(100, pw - tw - 100), random.randrange(100, ph - th - 100)
         cv2.putText(palette, t, (tarw, tarh), font, font_scale, (0, 0, 0), thickness)
         inb = [[tarw-bias, tarh+bias],[tarw+tw+bias, tarh+bias],[tarw+tw+bias, tarh-th-bias],[tarw-bias, tarh-th-bias]]
         outb = []
@@ -70,7 +73,7 @@ def makeNum(palette, pw, ph):
 
 def attach_rand_img(palette, gt, p):
     tar = random.randrange(0, len(gt))
-    imgpath = 'RAW/ORG/' + gt[tar]['data']['image'][-10:]
+    imgpath = 'RAW/ORG/' + gt[tar]['data']['image'][-10:] #gt[tar]
     img = cv2.imread(imgpath)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img, r = resi(img)
