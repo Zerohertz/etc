@@ -1,7 +1,6 @@
 import os
 import shutil
 import random
-from glob import glob
 import json
 import numpy as np
 import cv2
@@ -24,7 +23,7 @@ def pos(palette, img, p):
 
 def resi(img):
     w, h = img.shape[:-1]
-    rs = random.randrange(500, 900)
+    rs = random.randrange(200, 300)
     if h < w:
         img = cv2.resize(img, (int(rs*h/w), rs))
     else:
@@ -40,21 +39,23 @@ def coords2bbox(coord):
     yM = max(coord[0][1], coord[1][1], coord[2][1], coord[3][1])
     return xm, xM, ym, yM
 
-def makeNum(palette, pw, ph):
-    angle = -90
+def makeNum(palette, pw, ph, ang):
+    angle = -1 * ang
     M = cv2.getRotationMatrix2D((pw // 2, ph // 2), angle, 1.0)
     palette = cv2.warpAffine(palette, M, (pw, ph))
-    font = cv2.FONT_HERSHEY_SIMPLEX
+    font = cv2.FONT_HERSHEY_PLAIN
     font_scale = 1
-    thickness = 2
-    angle = 90
+    thickness = 1
+    angle = ang
     M = cv2.getRotationMatrix2D((pw // 2, ph // 2), angle, 1.0)
     bbox = []
     text = []
     bias = 5
-    for i in range(20):
-        if i % 3 == 0:
+    for i in range(7):
+        if i % 5 == 0:
             t = chr(random.randrange(65, 91))
+        elif i % 5 == 1:
+            t = chr(random.randrange(65, 91)) + str(random.randrange(0, 10))
         else:
             t = str(random.randrange(1, 900)) + ' , ' + str(random.randrange(100, 900))
         text.append(t.replace(' ', ''))
@@ -93,13 +94,13 @@ if __name__ == "__main__":
     os.mkdir('SD/json')
     with open('asdf.json') as f:
         gt = json.load(f)
-    pw, ph = 3000, 3000
+    pw, ph = 1000, 1000
     pp = []
     sq = 3
     for i in range(sq):
         for j in range(sq):
             pp.append([i/sq * pw, j/sq * ph, (i+1)/sq * pw, (j+1)/sq * ph])
-    for i in tqdm(range(1000)):
+    for i in tqdm(range(200)):
         sgt = {
             "version": "5.0.5",
             "flags": {},
@@ -112,7 +113,11 @@ if __name__ == "__main__":
         palette = np.full((pw,ph,3), 255, np.uint8)
         for p in pp:
             palette = attach_rand_img(palette, gt, p)
-        palette, bb, tt = makeNum(palette, pw, ph)
+        palette, bb1, tt1 = makeNum(palette, pw, ph, 90)
+        palette, bb2, tt2 = makeNum(palette, pw, ph, -90)
+        palette, bb3, tt3 = makeNum(palette, pw, ph, 0)
+        bb = bb1 + bb2 + bb3
+        tt = tt1 + tt2 + tt3
         for b, t in zip(bb, tt):
             # viz(palette, b)
             tmp = {
