@@ -34,27 +34,29 @@ def makeNum(palette, p, ang):
     palette = cv2.warpAffine(palette, M, (pw, ph))
     bbox = []
     text = []
-    sd = random.randrange(0,10+26+95+95+300)#20991)
-    if sd < 10:
-        t = str(random.randrange(0, 10)) #10
-    elif sd < 10+26:
-        t = chr(random.randrange(65, 91)) #26
-    elif sd < 10+26+95:
-        t = chr(random.randrange(0x3040, 0x309F+1)) #95
-    elif sd < 10+26+95+95:
-        t = chr(random.randrange(0x30A0, 0x30FF+1)) #95
-    elif sd < 10+26+95+95+20991:
-        t = chr(random.randrange(0x4E00, 0x9FFF+1)) #20991
+    t = ""
+    for _ in range(random.randrange(1, 2)):
+        sd = random.randrange(0,10+26+83+83)#20950)
+        if sd < 10:
+            t += str(random.randrange(0, 10)) #10
+        elif sd < 10+26:
+            t += chr(random.randrange(65, 91)) #26
+        elif sd < 10+26+83:
+            t += chr(random.randrange(0x3041, 0x3093+1)) #83
+        elif sd < 10+26+83+83:
+            t += chr(random.randrange(0x30A1, 0x30F3+1)) #83
+        elif sd < 10+26+83+83+20950:
+            t += chr(random.randrange(0x4E00, 0x9FD5+1)) #20950
     text.append(t)
     palette = Image.fromarray(palette)
     draw = ImageDraw.Draw(palette)
-    font = ImageFont.truetype('NotoSans-Regular.ttf', 30)
+    font = ImageFont.truetype('Kosugi-Regular.ttf', 30)
     tw, th = draw.textsize(t, font=font)
     bias = 30
     tarw, tarh = random.randrange(bias + pn[0], pn[2] - tw - bias), random.randrange(bias + pn[1], pn[3] - th - bias)
     draw.text((tarw, tarh), t, font=font, fill=(0,0,0,0))
     palette = np.array(palette)
-    coords = [[pn[0]+bias,pn[1]+bias], [pn[0]+bias,pn[3]-bias], [pn[2]-bias,pn[3]-bias], [pn[2]-bias,pn[1]+bias]]
+    # coords = [[pn[0]+bias,pn[1]+bias], [pn[0]+bias,pn[3]-bias], [pn[2]-bias,pn[3]-bias], [pn[2]-bias,pn[1]+bias]]
     # viz(palette, coords)
     bias = 5
     inb = [[tarw-bias, tarh-bias],[tarw+tw+bias, tarh-bias],[tarw+tw+bias, tarh+th+bias],[tarw-bias, tarh+th+bias]]
@@ -81,7 +83,7 @@ if __name__ == "__main__":
     for i in range(sq):
         for j in range(sq):
             pp.append([i/sq * pw, j/sq * ph, (i+1)/sq * pw, (j+1)/sq * ph])
-    for i in tqdm(range(2000)):
+    for i in tqdm(range(500)):
         sgt = {
             "version": "5.0.5",
             "flags": {},
@@ -117,5 +119,5 @@ if __name__ == "__main__":
         sgt["imagePath"] = name + '.png'
         for r in res:
             sgt["shapes"].append(r)
-        with open('SD/json/' + name + '.json', 'w') as f:
+        with open('SD/json/' + name + '.json', 'w', encoding='utf-8') as f:
             json.dump(sgt, f, indent=4)
