@@ -3,15 +3,10 @@ import shutil
 import random
 import json
 import numpy as np
+from PIL import Image, ImageDraw, ImageFont
 import cv2
 from tqdm import tqdm
 
-
-def viz(palette, coords):
-    s = [0, 1, 2, 3]
-    e = [1, 2, 3, 0]
-    for i, j in zip(s, e):
-        cv2.line(palette, coords[i], coords[j], (0, 0, 255), 2)
 
 def pos(palette, img, p):
     w, h, _ = img.shape
@@ -23,7 +18,7 @@ def pos(palette, img, p):
 
 def resi(img):
     w, h = img.shape[:-1]
-    rs = random.randrange(200, 300)
+    rs = random.randrange(50, 120)
     if h < w:
         img = cv2.resize(img, (int(rs*h/w), rs))
     else:
@@ -39,39 +34,6 @@ def coords2bbox(coord):
     yM = max(coord[0][1], coord[1][1], coord[2][1], coord[3][1])
     return xm, xM, ym, yM
 
-def makeNum(palette, pw, ph, ang):
-    angle = -1 * ang
-    M = cv2.getRotationMatrix2D((pw // 2, ph // 2), angle, 1.0)
-    palette = cv2.warpAffine(palette, M, (pw, ph))
-    font = cv2.FONT_HERSHEY_PLAIN
-    font_scale = 1
-    thickness = 1
-    angle = ang
-    M = cv2.getRotationMatrix2D((pw // 2, ph // 2), angle, 1.0)
-    bbox = []
-    text = []
-    bias = 5
-    for i in range(7):
-        if i % 5 == 0:
-            t = chr(random.randrange(65, 91))
-        elif i % 5 == 1:
-            t = chr(random.randrange(65, 91)) + str(random.randrange(0, 10))
-        else:
-            t = str(random.randrange(1, 900)) + ' , ' + str(random.randrange(100, 900))
-        text.append(t.replace(' ', ''))
-        ((tw, th), _) = cv2.getTextSize(t, font, font_scale, thickness)
-        tarw, tarh = random.randrange(100, pw - tw - 100), random.randrange(100, ph - th - 100)
-        cv2.putText(palette, t, (tarw, tarh), font, font_scale, (0, 0, 0), thickness)
-        inb = [[tarw-bias, tarh+bias],[tarw+tw+bias, tarh+bias],[tarw+tw+bias, tarh-th-bias],[tarw-bias, tarh-th-bias]]
-        outb = []
-        for b in inb:
-            pt = np.array([b[0], b[1], 1])
-            b = M@pt
-            outb.append(b.round().astype('int32').tolist())
-        bbox.append(outb)
-    palette = cv2.warpAffine(palette, M, (pw, ph))
-    return palette, bbox, text
-
 def attach_rand_img(palette, gt, p):
     tar = random.randrange(0, len(gt))
     imgpath = 'RAW/ORG/' + gt[tar]['data']['image'][-10:] #gt[tar]
@@ -86,6 +48,57 @@ def attach_rand_img(palette, gt, p):
         palette[c:d,a:b,:] = 255
     return palette
 
+def viz(palette, coords):
+    s = [0, 1, 2, 3]
+    e = [1, 2, 3, 0]
+    for i, j in zip(s, e):
+        cv2.line(palette, coords[i], coords[j], (0, 0, 255), 2)
+
+def makeNum(palette, p, ang):
+    pw, ph = palette.shape[:-1]
+    angle = -1 * ang
+    M = cv2.getRotationMatrix2D((pw // 2, ph // 2), angle, 1.0)
+    pn = [0, 0, 0 ,0]
+    pt = np.array([p[0], p[1], 1])
+    pn[:2] = (M@pt).round().astype('int32')
+    pt = np.array([p[2], p[3], 1])
+    pn[2:] = (M@pt).round().astype('int32')
+    if pn[0] > pn[2]:
+        tmp = pn[0]
+        pn[0] = pn[2]
+        pn[2] = tmp
+    if pn[1] > pn[3]:
+        tmp = pn[1]
+        pn[1] = pn[3]
+        pn[3] = tmp
+    palette = cv2.warpAffine(palette, M, (pw, ph))
+    bbox = []
+    text = []
+    t = str(random.randrange(1, 999)) + ',' + str(random.randrange(900, 999))
+    text.append(t)
+    palette = Image.fromarray(palette)
+    draw = ImageDraw.Draw(palette)
+    font = ImageFont.truetype('Kosugi-Regular.ttf', 15)
+    tw, th = draw.textsize(t, font=font)
+    bias = 30
+    tarw, tarh = random.randrange(bias + pn[0], pn[2] - tw - bias), random.randrange(bias + pn[1], pn[3] - th - bias)
+    draw.text((tarw, tarh), t, font=font, fill=(0,0,0,0))
+    palette = np.array(palette)
+    # coords = [[pn[0]+bias,pn[1]+bias], [pn[0]+bias,pn[3]-bias], [pn[2]-bias,pn[3]-bias], [pn[2]-bias,pn[1]+bias]]
+    # viz(palette, coords)
+    bias = 5
+    inb = [[tarw-bias, tarh-bias],[tarw+tw+bias, tarh-bias],[tarw+tw+bias, tarh+th+bias],[tarw-bias, tarh+th+bias]]
+    outb = []
+    angle = ang
+    M = cv2.getRotationMatrix2D((pw // 2, ph // 2), angle, 1.0)
+    for b in inb:
+        pt = np.array([b[0], b[1], 1])
+        b = M@pt
+        outb.append(b.round().astype('int32').tolist())
+    bbox.append(outb)
+    palette = cv2.warpAffine(palette, M, (pw, ph))
+    return palette, bbox, text
+
 
 if __name__ == "__main__":
     shutil.rmtree('SD')
@@ -96,11 +109,11 @@ if __name__ == "__main__":
         gt = json.load(f)
     pw, ph = 1000, 1000
     pp = []
-    sq = 3
+    sq = 8
     for i in range(sq):
         for j in range(sq):
             pp.append([i/sq * pw, j/sq * ph, (i+1)/sq * pw, (j+1)/sq * ph])
-    for i in tqdm(range(200)):
+    for i in tqdm(range(500)):
         sgt = {
             "version": "5.0.5",
             "flags": {},
@@ -109,15 +122,20 @@ if __name__ == "__main__":
             "imageHeight": ph,
             "imageWidth": pw
         }
-        res = []
+        res, bb, tt = [], [], []
         palette = np.full((pw,ph,3), 255, np.uint8)
         for p in pp:
             palette = attach_rand_img(palette, gt, p)
-        palette, bb1, tt1 = makeNum(palette, pw, ph, 90)
-        palette, bb2, tt2 = makeNum(palette, pw, ph, -90)
-        palette, bb3, tt3 = makeNum(palette, pw, ph, 0)
-        bb = bb1 + bb2 + bb3
-        tt = tt1 + tt2 + tt3
+        for j, p in enumerate(pp):
+            if j % 3 == 0:
+                palette, b, t = makeNum(palette, p, 90)
+            elif j % 3 == 1:
+                palette, b, t = makeNum(palette, p, -90)
+            elif j % 3 == 2:
+                palette, b, t = makeNum(palette, p, 0)
+            bb += b
+            tt += t
+            # break
         for b, t in zip(bb, tt):
             # viz(palette, b)
             tmp = {
@@ -134,5 +152,5 @@ if __name__ == "__main__":
         sgt["imagePath"] = name + '.png'
         for r in res:
             sgt["shapes"].append(r)
-        with open('SD/json/' + name + '.json', 'w') as f:
+        with open('SD/json/' + name + '.json', 'w', encoding='utf-8') as f:
             json.dump(sgt, f, indent=4)
