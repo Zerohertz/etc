@@ -17,3 +17,8 @@
 
 + 위 코드에서 ground truth인 텍스트의 `label`이 존재하지 않기 때문에 기존 데이터의 `label`이 될 수 있는 텍스트 영역을 모두 삭제
 + 이후 이미지를 새로운 이미지에 붙이고 회전하여 랜덤한 숫자 텍스트를 삽입하고 다시 반대 방향으로 회전하여 최종적인 synthetic data 생성
+
+## CRAFT/makeSyntheticDataFromLang.py
+
++ Region score map과 affinity score map의 학습을 위한 synthetic data 생성
++ `palette` 위에 그리드에 맞춰 랜덤 위치에 글자 배치 및 `label` 정보 `JSON` 파일 내 저장
