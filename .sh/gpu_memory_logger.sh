@@ -1,5 +1,10 @@
 #!/bin/bash
 
+'''
+chmod +x gpu_memory_logger.sh
+./gpu_memory_logger.sh
+'''
+
 gpu_indexes=(0 1 2 3)
 
 function record_gpu_memory_usage() {
