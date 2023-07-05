@@ -29,4 +29,5 @@ for index in ${!gpu_indexes[@]}; do
     record_gpu_memory_usage "$gpu_index" "$output_file" &
 done
 
+python monitoring.py
 wait
