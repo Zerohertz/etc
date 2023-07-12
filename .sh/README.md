@@ -38,6 +38,7 @@ def renewal(pos, start_time):
     x = ts2rt(data, start_time)
     y = data[:, 1]
     plt.plot(x, y, linewidth=2, label=pos.split('/')[-1].split('.')[0].upper())
+    return x
 
 def init_plt():
     plt.figure(figsize=(15, 10))
@@ -45,20 +46,26 @@ def init_plt():
     plt.xlabel('Time [sec]')
     plt.ylabel('GPU Memory [MiB]')
 
-def done_plt():
+def done_plt(THRESHOLD):
+    plt.ylim([-10, THRESHOLD + THRESHOLD/20])
     plt.legend()
-    plt.savefig('tmp.png', dpi=300, bbox_inches='tight')
+    plt.savefig('tmp.png', dpi=100, bbox_inches='tight')
     plt.close('all')
 
 def main(tar, mst):
+    THRESHOLD = 32768
     init_plt()
+    x = []
     for tmp in tar:
-        renewal(tmp, mst)
-    done_plt()
+        x_ = renewal(tmp, mst)
+        if len(x) < len(x_):
+            x = x_
+    plt.plot(x, np.ones(len(x)) * THRESHOLD, linewidth=3, label='THRESHOLD')
+    done_plt(THRESHOLD)
 
 if __name__ == "__main__":
     plt.rcParams['font.size'] = 20
-    plt.rcParams['font.family'] = 'NanumGothicCoding'
+    plt.rcParams['font.family'] = 'Times New Roman'
 
     tar = glob("gpu_memory_usage_*.txt")
     tar.sort()
