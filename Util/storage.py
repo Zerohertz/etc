@@ -51,5 +51,5 @@ if __name__ == "__main__":
     plt.rcParams["font.size"] = 20
     plt.rcParams["font.family"] = "Times New Roman"
     directory = input("TARGET DIRECTORY:\t")
-    sizes = get_file_and_directory_sizes(directory, directory)
-    plot_sizes(sizes)
+    sizes = get_file_and_directory_sizes(directory)
+    plot_sizes(sizes, directory)
