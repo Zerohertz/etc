@@ -25,7 +25,7 @@ def get_file_and_directory_sizes(directory="."):
     return sizes
 
 
-def plot_sizes(sizes):
+def plot_sizes(sizes, fn):
     labels = []
     sizes_list = []
     etc = 0
@@ -40,12 +40,16 @@ def plot_sizes(sizes):
 
     plt.figure(figsize=(15, 10))
     plt.pie(sizes_list, labels=labels, autopct="%1.1f%%")
-    plt.savefig("storage.png", dpi=300, bbox_inches="tight")
+    if fn == ".":
+        fn = "tmp.png"
+    else:
+        fn = fn.split("/")[-1] + ".png"
+    plt.savefig(fn, dpi=300, bbox_inches="tight")
 
 
 if __name__ == "__main__":
     plt.rcParams["font.size"] = 20
     plt.rcParams["font.family"] = "Times New Roman"
     directory = input("TARGET DIRECTORY:\t")
-    sizes = get_file_and_directory_sizes(directory)
+    sizes = get_file_and_directory_sizes(directory, directory)
     plot_sizes(sizes)
