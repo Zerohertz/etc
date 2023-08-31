@@ -5,7 +5,7 @@ chmod +x gpu_memory_logger.sh
 ./gpu_memory_logger.sh
 ```
 
-[8번 줄](https://github.com/Zerohertz/etc/blob/master/.sh/gpu_memory_logger.sh#L8)에 GPU의 index를 지정하여 매 시간마다의 메모리를 `.txt`로 저장
+GPU의 index를 지정하여 매 시간마다의 메모리를 `.txt`로 저장
 
 <details>
 <summary>
