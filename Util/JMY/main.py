@@ -45,9 +45,11 @@ class JMY:
             ]
         self.data["위치"] = (
             self.data["주소"]
+            .str.replace("서울특별시 ", "서울특별시")
             .str.replace("경기도 ", "경기도")
             .str.split(" ")
             .str[0]
+            .str.replace("서울특별시", "서울특별시 ")
             .str.replace("경기도", "경기도 ")
         )
         plt.rcParams["font.size"] = 15
