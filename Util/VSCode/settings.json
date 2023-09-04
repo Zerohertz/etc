@@ -10,7 +10,7 @@
     "isort.args":["--profile", "black"],
 
     "[yaml]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "redhat.vscode-yaml",
         "editor.formatOnSave": true,
     },
 
