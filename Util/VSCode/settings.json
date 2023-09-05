@@ -7,11 +7,14 @@
             "source.organizeImports": true
         },
     },
-    "isort.args":["--profile", "black"],
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
 
     "[yaml]": {
         "editor.defaultFormatter": "redhat.vscode-yaml",
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
 
     "prettier.tabWidth": 4,
@@ -76,17 +79,28 @@
 
     // ------------------ SSH ------------------ //
     "remote.SSH.remotePlatform": {
-        "Zerohertz": "linux"
+        "Zerohertz": "linux",
+        "agile-k8s-master1": "linux",
+        "DevNode113": "linux",
+        "DevNode114": "linux",
+        "DevNode121": "linux",
+        "DevLocal196": "linux",
+        "DevLocal197": "linux",
     },
 
     // ------------------ ETC ------------------ //
     "security.workspace.trust.untrustedFiles": "open",
-    "terminal.integrated.enableMultiLinePasteWarning": false,
     "workbench.startupEditor": "none",
 
     "editor.detectIndentation": false,
     "editor.renderWhitespace": "boundary",
+    "editor.accessibilitySupport": "on",
 
     "explorer.confirmDragAndDrop": false,
     "explorer.confirmDelete": false,
+
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "terminal.integrated.env.osx": {
+        "FIG_NEW_SESSION": "1"
+    },
 }
