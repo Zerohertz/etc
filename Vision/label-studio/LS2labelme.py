@@ -17,15 +17,15 @@ def convert_rectangle_to_polygon(label_studio_json):
             value = result.get("value")
             ow, oh = result.get("original_width"), result.get("original_height")
             if shape_type == "rectanglelabels":
-                x = value.get("x") / 100
-                y = value.get("y") / 100
-                width = value.get("width")
-                height = value.get("height")
+                x = value.get("x") / 100 * ow
+                y = value.get("y") / 100 * oh
+                width = value.get("width") / 100 * ow
+                height = value.get("height") / 100 * oh
                 points = [
-                    [x * ow, y * oh],
-                    [(x + width) * ow, y * oh],
-                    [(x + width) * ow, (y + height) * oh],
-                    [x * ow, (y + height) * oh],
+                    [x, y],
+                    [x + width, y],
+                    [x + width, y + height],
+                    [x, y + height],
                 ]
                 try:
                     label = LABEL_CONVERTER[value.get("rectanglelabels")[0]]
