@@ -17,8 +17,8 @@ def convert_rectangle_to_polygon(label_studio_json):
             value = result.get("value")
             ow, oh = result.get("original_width"), result.get("original_height")
             if shape_type == "rectanglelabels":
-                x = value.get("x")
-                y = value.get("y")
+                x = value.get("x") / 100
+                y = value.get("y") / 100
                 width = value.get("width")
                 height = value.get("height")
                 points = [
