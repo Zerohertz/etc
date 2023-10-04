@@ -79,10 +79,10 @@ if __name__ == "__main__":
 ![tmp](https://github.com/Zerohertz/Zerohertz/assets/42334717/fd0c75ee-e627-4131-852e-cef87be8fc7e)
 </details>
 
-# to_discord.sh
+# install_nvtop.sh
 
-자신이 사용하는 shell 설정 파일 (`~/.bashrc`, `~/.zshrc`, ...)에 입력해두면 아래와 같이 간편히 사용 가능
-
-```bash
-$ to_discord 'Hello, World!'
+```sh
+$ nvtop
 ```
+
+![nvtop](https://github-production-user-asset-6210df.s3.amazonaws.com/42334717/272454733-b4f40f53-c485-4838-8424-ce54373d7e81.png)
