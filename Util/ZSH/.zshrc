@@ -180,3 +180,4 @@ alias mine="sudo chown -R ${USER}:${USER}"
 alias inet="speedtest-cli"
 alias lint="isort *.py && black *.py"
 alias b64="sh ~/sh/base64.sh"
+export PROMPT_EOL_MARK=
