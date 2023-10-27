@@ -174,6 +174,11 @@ export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
 export PATH=$JAVA_HOME/bin:$PATH
 alias jj="java Main.java"
 
+# ----------------------- NODE ----------------------- #
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # ----------------------- ETC ----------------------- #
 alias run="sh run.sh"
 alias mine="sudo chown -R ${USER}:${USER}"
