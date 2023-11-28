@@ -5,12 +5,9 @@
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
-        },
+        }
     },
-    "isort.args": [
-        "--profile",
-        "black"
-    ],
+    "isort.args": ["--profile", "black"],
 
     "editor.formatOnSave": true,
     "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
@@ -24,32 +21,32 @@
     "prettier.tabWidth": 4,
     "[json]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": true,
+        "editor.formatOnSave": true
     },
 
     // ------------------ COLOR ------------------ //
     "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "Material Theme Darker High Contrast",
     "workbench.colorCustomizations": {
-        "terminal.background":"#000000",
-        "terminal.foreground":"#FFFFFF",
-        "terminalCursor.background":"#FFFFFF",
-        "terminalCursor.foreground":"#FFFFFF",
-        "terminal.ansiBlack":"#000000",
-        "terminal.ansiBlue":"#800A0A",
-        "terminal.ansiBrightBlue":"#00FFFF",
-        "terminal.ansiBrightCyan":"#0000FF",
-        "terminal.ansiBrightGreen":"#00FF00",
-        "terminal.ansiBrightMagenta":"#FF00F0",
-        "terminal.ansiBrightRed":"#FF0000",
-        "terminal.ansiBrightWhite":"#F7F7F7",
-        "terminal.ansiBrightYellow":"#FFFF00",
-        "terminal.ansiCyan":"#00FFFF",
-        "terminal.ansiGreen":"#00FF00",
-        "terminal.ansiMagenta":"#FF00F0",
-        "terminal.ansiRed":"#FF0000",
-        "terminal.ansiWhite":"#FFFFFF",
-        "terminal.ansiYellow":"#FFFF00",
+        "terminal.background": "#000000",
+        "terminal.foreground": "#FFFFFF",
+        "terminalCursor.background": "#FFFFFF",
+        "terminalCursor.foreground": "#FFFFFF",
+        "terminal.ansiBlack": "#000000",
+        "terminal.ansiBlue": "#800A0A",
+        "terminal.ansiBrightBlue": "#00FFFF",
+        "terminal.ansiBrightCyan": "#0000FF",
+        "terminal.ansiBrightGreen": "#00FF00",
+        "terminal.ansiBrightMagenta": "#FF00F0",
+        "terminal.ansiBrightRed": "#FF0000",
+        "terminal.ansiBrightWhite": "#F7F7F7",
+        "terminal.ansiBrightYellow": "#FFFF00",
+        "terminal.ansiCyan": "#00FFFF",
+        "terminal.ansiGreen": "#00FF00",
+        "terminal.ansiMagenta": "#FF00F0",
+        "terminal.ansiRed": "#FF0000",
+        "terminal.ansiWhite": "#FFFFFF",
+        "terminal.ansiYellow": "#FFFF00",
         "[Material Theme Darker High Contrast]": {
             "activityBarBadge.background": "#800a0a",
             "activityBar.activeBorder": "#800a0a",
@@ -96,7 +93,6 @@
     "security.workspace.trust.untrustedFiles": "open",
     "workbench.startupEditor": "none",
 
-    "editor.detectIndentation": false,
     "editor.renderWhitespace": "boundary",
     "editor.accessibilitySupport": "on",
 
@@ -106,5 +102,5 @@
     "terminal.integrated.enableMultiLinePasteWarning": false,
     "terminal.integrated.env.osx": {
         "FIG_NEW_SESSION": "1"
-    },
+    }
 }
