@@ -181,6 +181,8 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # ----------------------- ETC ----------------------- #
+alias vi="nvim"
+alias ssh="kitten ssh"
 alias run="sh run.sh"
 alias mine="sudo chown -R ${USER}:${USER}"
 alias inet="speedtest-cli"
