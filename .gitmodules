@@ -1,0 +1,3 @@
+[submodule "Util/nvim"]
+	path = Util/nvim
+	url = https://github.com/Zerohertz/nvim
