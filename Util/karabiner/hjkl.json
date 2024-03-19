@@ -1,5 +1,5 @@
 {
-    "description": "Change left_shift+hjkl to arrow keys",
+    "description": "Change right_shift+hjkl to arrow keys",
     "manipulators": [
         {
             "from": {
