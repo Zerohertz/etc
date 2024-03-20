@@ -1,3 +1,3 @@
 <p align="center">
-    <img width="538" src="https://github.com/Zerohertz/Zerohertz/assets/42334717/52d5ec3e-34e2-4734-9349-9b0712d96f59">
+    <img width="534" src="https://github.com/Zerohertz/Zerohertz/assets/42334717/45569de7-d6e0-49b4-8ffa-eff6150c7954">
 </p>
