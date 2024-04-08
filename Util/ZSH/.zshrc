@@ -150,6 +150,10 @@ alias ufw-off="sudo ufw disable"
 # ----------------------- FAIL2BAN ----------------------- #
 alias jail="sudo fail2ban-client status sshd"
 
+# ----------------------- DOCKER ----------------------- #
+alias exd="docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm"
+alias rmi="docker image prune -a"
+
 # ----------------------- K8S ----------------------- #
 source <(kubeadm completion zsh)
 source <(kubectl completion zsh)
