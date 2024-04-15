@@ -1,0 +1,16 @@
+<View>
+  <Image name="image" value="$ocr"/>
+  <Labels name="label" toName="image">
+    <Label value="Text" background="green"/>
+  </Labels>
+  <Rectangle name="bbox" toName="image" strokeWidth="3"/>
+  <TextArea name="transcription" toName="image"
+            editable="true"
+            perRegion="true"
+            required="true"
+            maxSubmissions="1"
+            rows="5"
+            placeholder="Recognized Text"
+            displayMode="region-list"
+            />
+</View>
