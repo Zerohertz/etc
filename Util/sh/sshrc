@@ -1,0 +1,15 @@
+#!/bin/bash
+
+. /home/zerohertz/.env
+
+CHANNEL="#zerohertz"
+USER=$(whoami)
+IP=$(echo $SSH_CONNECTION | awk '{print $1}')
+DATE=$(date "+%Y-%m-%d %H:%M:%S")
+MESSAGE="{
+    \"channel\": \"$CHANNEL\",
+    \"text\": \"User \`$USER\` logged in at \`$DATE\`\nIP: <https://db-ip.com/$IP|$IP>\",
+    \"username\": \"SSH\",
+    \"icon_emoji\": \":bomb:\",
+}"
+curl -X POST -H "Authorization: Bearer $SLACK_BOT_TOKEN" -H 'Content-type: application/json' --data "$MESSAGE" https://slack.com/api/chat.postMessage >/dev/null 2>&1
