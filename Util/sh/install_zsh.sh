@@ -2,7 +2,7 @@ rm -f ~/.zshrc
 rm -f ~/.p10k.zsh
 rm -rf ~/.oh-my-zsh
 
-sudo apt install zsh -y
+sudo apt-get install zsh -y
 
 echo "n" | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
