@@ -13,6 +13,8 @@ brew install --cask karabiner-elements
 
 # -------- Dev -------- #
 brew install --cask miniconda
+brew install openjdk@17
+curl -s "https://get.sdkman.io" | bash
 brew install go
 brew install rust
 brew install node
