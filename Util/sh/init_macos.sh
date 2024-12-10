@@ -19,6 +19,7 @@ brew install go
 brew install rust
 brew install node
 brew install --cask docker
+brew install --cask postman
 
 # -------- Neovim -------- #
 brew install neovim
