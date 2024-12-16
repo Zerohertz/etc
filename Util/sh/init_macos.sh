@@ -25,6 +25,7 @@ brew install --cask postman
 brew install neovim
 brew install --cask neovide
 brew install --cask font-hack-nerd-font
+brew install wget
 brew install fd
 brew install ripgrep
 brew install lazygit
