@@ -23,7 +23,7 @@ brew install --cask postman
 
 # -------- Neovim -------- #
 brew install neovim
-brew install neovide
+brew install --cask neovide
 brew install --cask font-hack-nerd-font
 brew install fd
 brew install ripgrep
