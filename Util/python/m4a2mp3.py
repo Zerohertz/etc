@@ -21,6 +21,5 @@ def convert_m4a_to_mp3(input_file, output_file):
 
 
 if __name__ == "__main__":
-
     for path in glob("*.m4a"):
         convert_m4a_to_mp3(path, path.replace(".m4a", ".mp3"))
