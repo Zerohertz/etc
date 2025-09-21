@@ -1,0 +1,62 @@
+# NOTE:
+# kubectl create sa $SA_NAME -n $NAMESPACE --dry-run=client -o yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: $SA_NAME
+  namespace: $NAMESPACE
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: $SA_NAME
+  namespace: $NAMESPACE
+  annotations:
+    kubernetes.io/service-account.name: $SA_NAME
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: $ROLE_NAME
+  namespace: $NAMESPACE
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - pods/log
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - replicasets
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: $ROLE_BINDING_NAME
+  namespace: $NAMESPACE
+subjects:
+  - kind: ServiceAccount
+    name: $SA_NAME
+    namespace: $NAMESPACE
+roleRef:
+  kind: Role
+  name: $ROLE_NAME
+  apiGroup: rbac.authorization.k8s.io
